@@ -1,0 +1,114 @@
+﻿@using ChannelEngineShared.Models
+@model OrderResponse
+@{
+    var orders = Model.Orders;
+    var top5Products = Model.Top5Products;
+}
+
+        @if (orders != null)
+        {
+                <h1 style="margin-left: 14px;">Orders</h1>
+                @if (!orders.Success)
+                {
+                    <p class="message-error messageDisplay">No result found for your search criteria</p>
+                }
+
+                <div style="margin-left: 2em">
+                    @if (orders.Content.Any())
+                    {
+                        <table style="width:100%">
+                            <tr>
+                                <td>MerchantOrderNo</td>
+                                <td>ChannelOrderNo</td>
+                                <td>TotalInclVat</td>
+                            </tr>
+                                @foreach (var data in orders.Content)
+                                {
+                                <tr>
+                                    <td hidden=@data.Id name="OrderId"></td>
+                                    <td>
+                                            @data.MerchantOrderNo
+                                    </td>
+                                    <td>
+                                            @data.ChannelOrderNo
+                                    </td>
+                                    <td>
+                                            @data.TotalInclVat
+                                    </td>
+                                </tr>
+                                }
+                        </table>
+                    }
+                </div>
+        }
+
+@if (top5Products != null)
+{
+    <h1 style="margin-left: 14px;">Products</h1>
+    @if (top5Products.Count<=0)
+    {
+        <p class="message-error messageDisplay">No result found for your search criteria</p>
+    }
+
+    <div style="margin-left: 2em">
+        @if (top5Products.Any())
+        {
+            <table style="width:100%">
+                <tr>
+                    <td>Description</td>
+                    <td>ChannelProductNo</td>
+                    <td>MerchantProductNo</td>
+                    <td>Quantity</td>
+                    <td>Gtin</td>
+                </tr>
+                @foreach (var data in top5Products)
+                {
+                    <tr>
+                        <td>
+                            @data.Description
+                        </td>
+                        <td>
+                            @data.ChannelProductNo
+                        </td>
+                        <td>
+                            @data.MerchantProductNo
+                        </td>
+                        <td>
+                            @data.Quantity
+                        </td>
+                        <td>
+                            @data.Gtin
+                        </td>
+                    </tr>
+                }
+            </table>
+        }
+    </div>
+}
+
+<div style="margin-top:10%">
+    <input type="text" class="" name="stockValue" id="stockValue" value="" data-validate-use-tooltip="true"
+           data-validate-tooltip-placement="bottom" autocomplete="off" placeholder="Enter Stock"
+           spellcheck="false" dir="auto" style="position: relative; vertical-align: top; background-color: transparent;">
+    <input type="text" class="" name="productMerchantNo" id="productMerchantNo" value="" data-validate-use-tooltip="true"
+           data-validate-tooltip-placement="bottom" autocomplete="off" placeholder="Enter product No to update stock"
+           spellcheck="false" dir="auto" style="position: relative; vertical-align: top; background-color: transparent;">
+    <button id="updateStock" asp-action="InvokeAsync">Update Stock</button>
+</div>
+
+@*<script>
+    function UpdateStock() {
+        var productMerchantNo = $('#productMerchantNo').val();
+        var stock = $('#stockValue').val();
+        $.post('api/Stocks/UpdateStock/?productNo=' + productMerchantNo + '&stock=' + stock,
+            function (result) {
+            });
+    }
+</script>*@
+<script type="text/javascript">
+    function UpdateStock() {
+        var productMerchantNo = $('#productMerchantNo').val();
+        var stock = $('#stockValue').val();
+       
+   }
+</script>
